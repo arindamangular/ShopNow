@@ -45,12 +45,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
             
             views: {
                 '' : {
-                    templateUrl: 'view1/landing.html'
+                    templateUrl: 'layout/landing.html',
+                    controller: 'loginController'
                 },
                 'footer':{
                     templateUrl : 'staticContent/appFooter.html'
                 }
             }
+
         })
 
         // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
@@ -58,16 +60,34 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/home',
             views: {
                 '' : {
-                    templateUrl: 'view1/homePage.html'
+                    templateUrl: 'layout/homePage.html'
                 },
                 'header@home':{
                     templateUrl: 'staticContent/appHeader.html'
                 },
-                'footer@home':{
+                'footer':{
                     templateUrl : 'staticContent/appFooter.html'
                 }
-            }  
-        });
+            },
+            resolve: {
+                check: function($q, $timeout, userAuth){
 
+                    userAuth.checkUserAuth("adminq", "adminqq");
+                   // var deferred = $q.defer();
+                   // $timeout(function(){
+                   //     deferred.reject("Allo!");
+                   // },2000); 
+                   // return deferred.promise;
+                }  
+            }
+        })
+        .state('home.pdp' , {
+            url: '/pdpView',
+            views: {
+                'pdp':{
+                    templateUrl: 'productDetail/pdp_view.html'
+                }
+            }
+        });
 });
 
