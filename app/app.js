@@ -14,7 +14,7 @@
 // }]);
 
 
-var app = angular.module("myApp", ['ui.router']);
+var app = angular.module("myApp", ['ui.router','angular-storage']);
 
 // app.config(function($routeProvider) {
 // 	$routeProvider
@@ -70,16 +70,23 @@ app.config(function($stateProvider, $urlRouterProvider) {
                 }
             },
             resolve: {
-                check: function($q, $timeout, userAuth){
+               check: function($q, store){
+                   var deferred = $q.defer();
 
-                    userAuth.checkUserAuth("adminq", "adminqq");
-                   // var deferred = $q.defer();
-                   // $timeout(function(){
-                   //     deferred.reject("Allo!");
-                   // },2000); 
-                   // return deferred.promise;
+                  var isLogin =  store.get('logedUser');
+                  console.log(isLogin);
+
+                 if (isLogin.success == true) {
+                       deferred.resolve();
+                  } else{
+                        deferred.reject();
+                        //store.remove('logedUser');
+                  };
+
+                   return deferred.promise;
+                   
                 }  
-            }
+             }
         })
         .state('home.pdp' , {
             url: '/pdpView',
@@ -89,5 +96,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
                 }
             }
         });
+        
 });
 
