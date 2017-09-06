@@ -1,4 +1,4 @@
-app.controller("loginController" , function($scope, userAuth, store){
+app.controller("loginController" , function($scope, userAuth, store, $state){
 
 		
 		$scope.user = {};
@@ -10,17 +10,29 @@ app.controller("loginController" , function($scope, userAuth, store){
   		
 
 	$scope.loginUser = function(){
+		//console.log(isLogin.success);
+		var isLogin =  store.get('logedUser');
 
-		//console.log("asas");
-		var isLogin = userAuth.checkUserAuth($scope.user.userName , $scope.user.password);
-			isLogin.then(function(data){
+	    if (isLogin == null) {
+	    	console.log("call")
+	           	var isLogin = userAuth.checkUserAuth($scope.user.userName , $scope.user.password);
+				isLogin.then(function(data){
 				$scope.datav = data.data;
 				authData = $scope.datav;
-
 				store.set('logedUser', authData);
   				$scope.authUserData = store.get('logedUser');
 				//console.log($scope.authUserData);
-		});
+				$state.go('home', null, {reload:true});
+
+			});
+	    } else{
+	    	console.log("not calls");
+	    	console.log(isLogin.success);
+	        $state.go('home', null, {reload:true});
+	    };
+
+		//console.log("asas");
+		
 		// alert(isLogin);
 
 	}

@@ -60,17 +60,27 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/home',
             views: {
                 '' : {
-                    templateUrl: 'layout/homePage.html'
+                    templateUrl: 'layout/homePage.html',
+                    controller: 'homeController'
+
                 },
                 'header@home':{
                     templateUrl: 'staticContent/appHeader.html'
                 },
                 'footer':{
                     templateUrl : 'staticContent/appFooter.html'
+                },
+                'leftPanel@home':{
+                    templateUrl: 'staticContent/appLeftpan.html'
+                },
+                'productList@home':{
+                    templateUrl : 'prductListing/productListing.html',
+                    controller: 'productListController'
                 }
             },
             resolve: {
                check: function($q, store){
+                console.log("state change");
                    var deferred = $q.defer();
 
                   var isLogin =  store.get('logedUser');
@@ -80,7 +90,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
                        deferred.resolve();
                   } else{
                         deferred.reject();
-                        //store.remove('logedUser');
+                        store.remove('logedUser');
                   };
 
                    return deferred.promise;
@@ -91,7 +101,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('home.pdp' , {
             url: '/pdpView',
             views: {
-                'pdp':{
+                'productList':{
                     templateUrl: 'productDetail/pdp_view.html'
                 }
             }
