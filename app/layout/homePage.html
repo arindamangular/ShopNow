@@ -1,3 +1,10 @@
 <div ui-view="header"></div>
-<h1>Home page</h1>
+<div class="row home_wrapper">
+	<div class="col-md-3">
+		<div ui-view="leftPanel"></div>
+	</div>
+	<div class="col-md-9">
+		<div ui-view="productList"></div>
+	</div>
+</div>
 <div ui-view="pdp"></div>

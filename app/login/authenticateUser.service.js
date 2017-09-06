@@ -13,6 +13,7 @@ app.factory('userAuth', function($q, $timeout, $http){
 
 				};
 				$http(req).then(function(result){
+					console.log("service call");
 					defeffered.resolve(result);
 					
 					
